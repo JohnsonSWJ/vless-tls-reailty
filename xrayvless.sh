@@ -225,12 +225,15 @@ while true; do
     1)
       check_and_install_xray
       XRAY_BIN=$(command -v xray || echo "/usr/local/bin/xray")
+
       read -rp "监听端口（如 443）: " PORT
       read -rp "节点备注: " REMARK
       UUID=$(cat /proc/sys/kernel/random/uuid)
-      KEYS=$($XRAY_BIN x25519)
-      PRIV_KEY=$(echo "$KEYS" | awk '/Private/ {print $3}')
-      PUB_KEY=$(echo "$KEYS" | awk '/Public/ {print $3}')
+
+      # 使用稳定方式生成 Reality 公私钥
+      PRIV_KEY=$($XRAY_BIN x25519 | grep 'Private' | cut -d ' ' -f 3)
+      PUB_KEY=$($XRAY_BIN x25519 | grep 'Public' | cut -d ' ' -f 3)
+
       SHORT_ID=$(head -c 4 /dev/urandom | xxd -p)
       SNI="www.cloudflare.com"
 
@@ -268,19 +271,18 @@ EOF
 
       IP=$(curl -s ipv4.ip.sb || curl -s ifconfig.me)
       LINK="vless://$UUID@$IP:$PORT?type=tcp&security=reality&sni=$SNI&fp=chrome&pbk=$PUB_KEY&sid=$SHORT_ID#$REMARK"
-      green "✅ 节点链接如下："
+
+      green "\n✅ VLESS Reality 节点已成功部署！"
+      green "----------------------------------------"
+      echo -e "🔑 UUID: $UUID"
+      echo -e "🌐 IP: $IP"
+      echo -e "📌 Reality 公钥 (pbk): $PUB_KEY"
+      echo -e "🔐 Reality 私钥 (仅服务端保存): $PRIV_KEY"
+      echo -e "🌀 shortId: $SHORT_ID"
+      echo -e "🎯 SNI: $SNI"
+      echo -e "\n📎 节点链接如下："
       echo "$LINK"
-      read -rp "按任意键返回菜单..."
-      ;;
-    2)
-      install_trojan_reality
-      ;;
-    3)
-      read -rp "请输入原始 VLESS 链接: " old_link
-      read -rp "请输入中转服务器地址（IP 或域名）: " new_server
-      new_link=$(echo "$old_link" | sed -E "s#(@)[^:]+#\\1$new_server#")
-      green "🎯 生成的新中转链接："
-      echo "$new_link"
+      echo "----------------------------------------"
       read -rp "按任意键返回菜单..."
       ;;
 
