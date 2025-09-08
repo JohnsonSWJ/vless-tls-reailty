@@ -161,9 +161,9 @@ install_trojan_reality() {
   read -rp "节点备注（如：trojanNode）: " REMARK
 
   PASSWORD=$(openssl rand -hex 8)
-  KEYS=$($XRAY_BIN x25519)
-  PRIV_KEY=$(echo "$KEYS" | awk '/Private/ {print $3}')
-  PUB_KEY=$(echo "$KEYS" | awk '/Public/ {print $3}')
+# 固定 Reality 密钥对
+  PRIV_KEY="TQn2HeWqh9jHgK2LqXyzr8a+ORhvTvmNnA7RHY4xLkw="
+  PUB_KEY="FUl49qTyZ5gf5ZEMdKjKl1nXarGE3AfD7KtfO+QIrGc="
   SHORT_ID=$(head -c 4 /dev/urandom | xxd -p)
   SNI="www.cloudflare.com"
 
