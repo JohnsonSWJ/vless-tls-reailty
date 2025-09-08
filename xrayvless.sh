@@ -207,8 +207,6 @@ EOF
 #====== 主菜单 ======
 while true; do
   clear
-  green "AD：优秀流媒体便宜小鸡：sadidc.cn"
-  green "AD：拼好机：gelxc.cloud"
   green "======= VLESS Reality 一键脚本V4.0正式版（💩山再升级） ======="
   echo "1) 安装并配置 VLESS Reality 节点"  
   echo "2）生成Trojan Reality节点"
