@@ -14,4 +14,4 @@
 > 请使用具有 `root` 权限的 VPS 或LXC 运行：
 
 ```bash
-bash <(curl -Ls https://raw.githubusercontent.com/sdd-tes/vless-tls-reailty/main/xrayvless.sh)
+bash <(curl -Ls https://raw.githubusercontent.com/JohnsonSWJ/vless-tls-reailty/main/xrayvless.sh)
